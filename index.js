@@ -316,6 +316,17 @@ async function run() {
         res.send(result)
       })
 
+      //show the data admin
+      app.get('/create-donation-request', verityToken, verifyAdmin, async (req, res) => {
+        const result = await DonationCollection.find().sort({ createdAt: -1 }).toArray()
+        res.send(result)
+      })
+      //show the data vol
+      app.get('/vol-create-donation-request', verityToken, verifyVulanteer, async (req, res) => {
+        const result = await DonationCollection.find().sort({ createdAt: -1 }).toArray()
+        res.send(result)
+      })
+  
     
 
 
