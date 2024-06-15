@@ -352,6 +352,14 @@ async function run() {
         res.send({ Donationcount ,Donorcount,fund });
   
       });
+
+      //Blog
+      app.post('/blogpost', verityToken, async (req, res) => {
+        const blog = req.body;
+        const result = await BlogsCollection.insertOne(blog)
+        res.send(result)
+      })
+  
     
 
 
