@@ -327,6 +327,31 @@ async function run() {
         res.send(result)
       })
   
+       //Count
+       app.get('/count', verityToken, async (req, res) => {
+        const query = { role: 'donor' }
+        const Donorcount = await usersCollection.countDocuments(query)
+        const Donationcount = await DonationCollection.countDocuments()
+        const result = await FundsCollection.aggregate([
+          {
+            $addFields: {
+              fundNumeric: { $toDouble: "$fund" }
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalFund: {
+                $sum: "$fundNumeric"
+              }
+            }
+          }
+        ]).toArray();
+  
+        const fund = result.length > 0 ? result[0].totalFund : 0;
+        res.send({ Donationcount ,Donorcount,fund });
+  
+      });
     
 
 
