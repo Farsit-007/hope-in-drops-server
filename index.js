@@ -400,6 +400,21 @@ async function run() {
         const result = await BlogsCollection.deleteOne(query)
         res.send(result)
       })
+
+
+      //Search Data Home
+      app.get('/searchdata', async (req, res) => {
+        const { district, upazila, blood } = req.query;
+        const query = {
+          district: { $regex: district, $options: 'i' },
+          upazila: { $regex: upazila, $options: 'i' },
+          blood: { $regex: blood, $options: 'i' },
+        }
+        console.log(query);
+        const result = await DonationCollection.find(query).toArray()
+        console.log(result);
+        res.send(result)
+      });
     
 
 
