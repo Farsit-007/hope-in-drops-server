@@ -415,6 +415,12 @@ async function run() {
         console.log(result);
         res.send(result)
       });
+
+       //Home Blog Page 
+       app.get('/publicBlog', async (req, res) => {
+        const result = await BlogsCollection.find().toArray()
+        res.send(result)
+      })
     
 
 
