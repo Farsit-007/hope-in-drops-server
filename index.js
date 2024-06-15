@@ -304,7 +304,17 @@ async function run() {
       res.send(result)
     })
 
-    
+      //Update Status
+      app.patch('/adminupdatestatus/:id', verityToken, verifyAdmin, async (req, res) => {
+        const id = req.params.id
+        const reqt = req.body;
+        const query = { _id: new ObjectId(id) }
+        const updatedoc = {
+          $set: { ...reqt }
+        }
+        const result = await usersCollection.updateOne(query, updatedoc)
+        res.send(result)
+      })
 
     
 
