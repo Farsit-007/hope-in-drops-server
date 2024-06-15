@@ -284,6 +284,27 @@ async function run() {
       res.send(result)
     })
 
+    //Admin 
+    //All Users
+    app.get('/allusers', verityToken, verifyAdmin, async (req, res) => {
+      const result = await usersCollection.find().toArray()
+      res.send(result)
+    })
+    //Update Role 
+    app.patch('/users/update/:email', verityToken, async (req, res) => {
+      const email = req.params.email;
+      const user = req.body;
+      const query = { email }
+      const updateDoc = {
+        $set: {
+          ...user, timestamp: Date.now()
+        }
+      }
+      const result = await usersCollection.updateOne(query, updateDoc)
+      res.send(result)
+    })
+
+    
 
     
 
