@@ -368,6 +368,14 @@ async function run() {
         const result = await BlogsCollection.find(query).sort({ createdAt: -1 }).toArray()
         res.send(result)
       })
+
+       //show All Blogs 
+       app.get('/Vol-Allblogs', verityToken, verifyVulanteer, async (req, res) => {
+        const filter = req.query.filter;
+        const query = filter ? { status: filter } : {};
+        const result = await BlogsCollection.find(query).sort({ createdAt: -1 }).toArray()
+        res.send(result)
+      })
     
 
 
