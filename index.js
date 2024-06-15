@@ -376,6 +376,23 @@ async function run() {
         const result = await BlogsCollection.find(query).sort({ createdAt: -1 }).toArray()
         res.send(result)
       })
+
+      
+      //Update blog Status
+      app.patch('/blogstatus/:id', verityToken, async (req, res) => {
+        const id = req.params.id
+        const blog = req.body;
+        console.log(blog);
+        const query = { _id: new ObjectId(id) }
+        const updatedoc = {
+          $set: { ...blog }
+        }
+        console.log(updatedoc);
+        const result = await BlogsCollection.updateOne(query, updatedoc)
+        console.log(result);
+        res.send(result)
+      })
+  
     
 
 
