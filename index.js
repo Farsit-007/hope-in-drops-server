@@ -360,6 +360,14 @@ async function run() {
         res.send(result)
       })
   
+       
+      //show All Blogs
+      app.get('/Allblogs', verityToken, verifyAdmin, async (req, res) => {
+        const filter = req.query.filter;
+        const query = filter ? { status: filter } : {};
+        const result = await BlogsCollection.find(query).sort({ createdAt: -1 }).toArray()
+        res.send(result)
+      })
     
 
 
