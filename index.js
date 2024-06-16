@@ -112,12 +112,13 @@ async function run() {
     //Save fund Details
     app.post('/fund-details', verityToken, async (req, res) => {
       const fund = req.body;
+      fund.createdAt = new Date()
       const result = await FundsCollection.insertOne(fund)
       res.send(result)
     })
     //Show All Funding
     app.get('/fund-all', verityToken, async (req, res) => {
-      const result = await FundsCollection.find().toArray()
+      const result = await FundsCollection.find().sort({ createdAt: -1 }).toArray()
       res.send(result)
     })
 
@@ -405,12 +406,13 @@ async function run() {
       //Search Data Home
       app.get('/searchdata', async (req, res) => {
         const { district, upazila, blood } = req.query;
+        console.log(district,upazila,blood);
         const query = {
           district: { $regex: district, $options: 'i' },
           upazila: { $regex: upazila, $options: 'i' },
           blood: { $regex: blood, $options: 'i' },
         }
-        const result = await DonationCollection.find(query).toArray();
+        const result = await usersCollection.find(query).toArray();
         res.send(result)
       });
 
@@ -418,6 +420,19 @@ async function run() {
        app.get('/publicBlog', async (req, res) => {
         const result = await BlogsCollection.find().toArray()
         res.send(result)
+      })
+      //Home Blog Page 
+      app.get('/publicBlog-Details/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const result = await BlogsCollection.findOne(query)
+        res.send(result)
+      })
+
+      app.get('/Donorcount', async (req, res) => {
+        const query = { role: 'donor' }
+        const Donorcount = await usersCollection.countDocuments(query)
+        res.send({Donorcount})
       })
     
 
